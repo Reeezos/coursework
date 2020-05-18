@@ -53,24 +53,24 @@ class Genre(models.Model):
 class Movie(models.Model):
     """Movie model"""
     title = models.CharField("Name", max_length=100)
-    tagline = models.CharField("Tagline", max_length=100, default='')
+    tagline = models.CharField("Tagline", max_length=100, default='', blank=True)
     description = models.TextField("Description")
     poster = models.ImageField("Poster", upload_to="movies/")
-    year = models.PositiveSmallIntegerField("Release date", default=1970)
+    running_time = models.DurationField("Running time")
     country = models.CharField("Country", max_length=50)
     directors = models.ManyToManyField(Artist, verbose_name="Director", related_name="film_director")
     actors = models.ManyToManyField(Artist, verbose_name="Actors", related_name="film_actor")
     genres = models.ManyToManyField(Genre, verbose_name="Genres")
     world_premiere = models.DateField("World premiere", default=date.today)
-    budget = models.PositiveIntegerField("Budget", default=0, help_text="USD")
+    budget = models.PositiveIntegerField("Budget", default=0, help_text="USD", blank=True, null=True)
     fees_in_usa = models.PositiveIntegerField(
-        "Fees in USA", default=0, help_text="USD"
+        "Fees in USA", default=0, help_text="USD", blank=True, null=True
     )
     fees_in_world = models.PositiveIntegerField(
-        "Fees in world", default=0, help_text="USD"
+        "Fees in world", default=0, help_text="USD", blank=True, null=True
     )
     category = models.ForeignKey(
-        Category, verbose_name="Category", on_delete=models.SET_NULL, null=True
+        Category, verbose_name="Category", on_delete=models.SET_NULL, null=True,
     )
     url = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Draft", default=False)
@@ -85,8 +85,8 @@ class Movie(models.Model):
         return self.reviews_set.filter(parent__isnull=True)
 
     class Meta:
-        verbose_name = "Film"
-        verbose_name_plural = "Films"
+        verbose_name = "Movie"
+        verbose_name_plural = "Movies"
 
 
 class MovieShots(models.Model):
