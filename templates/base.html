@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="ru">
 <head>
-    <title>Coursework</title>
+    <title> {% block title %} {% endblock title %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
@@ -14,7 +14,15 @@
 </head>
 <body>
 <div id="page" class="page">
-    {% include 'include/header.html'%}
+    <div class=" single-banner {% block header %} {% endblock header %}" id="home">
+        {% include 'include/header.html'%}
+    </div>
+    <ol class="breadcrumb editContent">
+        <li class="breadcrumb-item">
+            <a href="index.html" class="editContent">Головна</a>
+        </li>
+        <li class="breadcrumb-item active editContent">Окрема сторінка</li>
+    </ol>
     {% block content %}
 
     {% endblock content %}
