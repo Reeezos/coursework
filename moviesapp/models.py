@@ -53,7 +53,7 @@ class Genre(models.Model):
 class Movie(models.Model):
     """Movie model"""
     title = models.CharField("Name", max_length=100)
-    tagline = models.CharField("Tagline", max_length=100, default='', blank=True)
+    tagline = models.CharField("Tagline", max_length=100, default=' – ')
     description = models.TextField("Description")
     poster = models.ImageField("Poster", upload_to="movies/")
     running_time = models.DurationField("Running time")
@@ -62,12 +62,12 @@ class Movie(models.Model):
     actors = models.ManyToManyField(Artist, verbose_name="Actors", related_name="film_actor")
     genres = models.ManyToManyField(Genre, verbose_name="Genres")
     world_premiere = models.DateField("World premiere", default=date.today)
-    budget = models.PositiveIntegerField("Budget", default=0, help_text="USD", blank=True, null=True)
-    fees_in_usa = models.PositiveIntegerField(
-        "Fees in USA", default=0, help_text="USD", blank=True, null=True
+    budget = models.CharField("Budget", max_length=25, default=' – ', help_text="$")
+    fees_in_usa = models.CharField(
+        "Fees in USA", max_length=25, default=' – ', help_text="$"
     )
-    fees_in_world = models.PositiveIntegerField(
-        "Fees in world", default=0, help_text="USD", blank=True, null=True
+    fees_in_world = models.CharField(
+        "Fees in world", max_length=25, default=' – ', help_text="$"
     )
     category = models.ForeignKey(
         Category, verbose_name="Category", on_delete=models.SET_NULL, null=True,
@@ -100,8 +100,8 @@ class MovieShots(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = "Film shot"
-        verbose_name_plural = "Film shots"
+        verbose_name = "Movie shot"
+        verbose_name_plural = "Movie shots"
 
 
 class RatingStar(models.Model):
