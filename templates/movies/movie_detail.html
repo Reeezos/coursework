@@ -5,17 +5,17 @@
 
 
 {% block container %}
-<div class="container py-md-3">
+<div class="container-fluid py-md-3">
 {% endblock container %}
 
 {% block sidebar %}
-    <div class="side-bar col-lg-4">
+    <div class="side-bar col-lg-3">
 {% endblock sidebar %}
 
         {% block movie %}
         <div class="left-ads-display col-lg-8">
             <div class="row">
-                <div class="desc1-left col-md-6">
+                <div class="desc1-left col-md-5">
                     <img src="{{ movie.poster.url }}" class="img-fluid" alt="">
                 </div>
                 <div class="desc1-right col-md-6 pl-lg-4">
@@ -138,11 +138,13 @@
             <div class="row sub-para-w3layouts mt-5">
 
                 <h3 class="shop-sing editContent">
-                    О фильме {{ movie.title }}
+                    Про фільм {{ movie.title }}
                 </h3>
                 <p>
                     {% for image in movie.movieshots_set.all %}
+                    <a href="{{ image.image.url }}" target="_blank">
                     <img src="{{ image.image.url }}" class="img-movie-shots" alt="{{ image.description }}">
+                    </a>
                     {% endfor %}
                 </p>
                 <p class="editContent">
