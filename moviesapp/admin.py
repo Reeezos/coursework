@@ -1,7 +1,17 @@
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from .models import Category, Genre, Movie, MovieShots, Artist, Rating, RatingStar, Reviews
+
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class MovieAdminForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorUploadingWidget())
+    class Meta:
+        model = Movie
+        fields = '__all__'
 
 
 @admin.register(Category)
@@ -35,6 +45,8 @@ class MovieAdmin(admin.ModelAdmin):
     inlines = [MovieShotsInLine, ReviewInLine]
     save_on_top = True
     list_editable = ("draft",)
+    actions = ["publish", "unpublish"]
+    form = MovieAdminForm
     readonly_fields = ("get_image",)
     fieldsets = (
         (None, {
@@ -59,6 +71,28 @@ class MovieAdmin(admin.ModelAdmin):
             "fields": (("category", "url", "draft"),)
         }),
     )
+
+    def unpublish(self, request, queryset):
+        row_update = queryset.update(draft=True)
+        if row_update == 1:
+            message_bit = "1 запис оновлено"
+        else:
+            message_bit = f"{row_update} записів оновлено"
+        self.message_user(request, f"{message_bit}")
+
+    def publish(self, request, queryset):
+        row_update = queryset.update(draft=False)
+        if row_update == 1:
+            message_bit = "1 запис оновлено"
+        else:
+            message_bit = f"{row_update} записів оновлено"
+        self.message_user(request, f"{message_bit}")
+
+    publish.short_description = "Опублікувати"
+    publish.allowed_permissions = ('change',)
+
+    unpublish.short_description = "Зняти з публікації"
+    unpublish.allowed_permissions = ('change',)
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="100" height="150">')
