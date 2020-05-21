@@ -33,29 +33,42 @@
                             <span><b>Слоган:</b> {{ movie.tagline }}</span>
                         </li>
                         <li style="list-style: none">
-                                    <span><b>Режисер:</b>
+                                    <span><b>Режисери:</b>
                                         {% for director in movie.directors.all %}
-                                            {{ director.name }}
+                                            {% if  forloop.last %}
+                                                {{ director.name }}
+                                            {% else %}
+                                                {{ director.name }},
+                                            {% endif %}
                                         {% endfor %}
                                     </span>
                         </li>
                         <li style="list-style: none">
                                     <span><b>Актори:</b>
                                     {% for actor in movie.actors.all %}
-                                        {{ actor.name }}
+                                        {% if  forloop.last %}
+                                            {{ actor.name }}
+                                        {% else %}
+                                            {{ actor.name }},
+                                        {% endif %}
                                     {% endfor %}
                                 </span>
                         </li>
                         <li style="list-style: none">
                                     <span><b>Жанри:</b>
                                     {% for genre in movie.genres.all %}
-                                        {{ genre.name }}
+                                        {% if  forloop.last %}
+                                            {{ genre.name }}
+                                        {% else %}
+                                            {{ genre.name }},
+                                        {% endif %}
                                     {% endfor %}
                                     </span>
                         </li>
                         <li style="list-style: none">
                     <span><b>Прем'єра в світі:</b>
-                        {{ movie.world_premiere }}
+                        {{ movie.world_premiere.day }} {{movie.get_month}} {{movie.world_premiere.year}} р.
+
                     </span>
                         </li>
                         <li style="list-style: none">
@@ -89,6 +102,7 @@
                                       style="outline: none; cursor: inherit;">5.0</span>
                             </a>
                         </li>
+                    </ul>
                         <div class="share-desc">
                             <div class="share">
                                 <h4 class="editContent">

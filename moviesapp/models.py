@@ -84,6 +84,12 @@ class Movie(models.Model):
     def get_review(self):
         return self.reviews_set.filter(parent__isnull=True)
 
+    def get_month(self):
+        months = {1: 'cічня', 2: 'лютого', 3: 'березня', 4: 'квітня', 5: 'травня', 6: 'червня',
+                  7: 'липня', 8: 'серпня', 9: 'вересня', 10: 'жовтня', 11: 'листопада', 12: 'грудня'}
+
+        return months[int(self.world_premiere.month)]
+
     class Meta:
         verbose_name = "Movie"
         verbose_name_plural = "Movies"

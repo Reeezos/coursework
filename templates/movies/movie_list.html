@@ -21,7 +21,11 @@
 
                     <div class="product_price">
                         <div class="grid-price">
-                            <span class="money editContent">{{movie.tagline}}</span>
+                            <span class="money editContent">
+                                {% if movie.tagline != "–" %}
+                                {{movie.tagline}}
+                                {% endif %}
+                            </span>
                         </div>
                     </div>
                     <ul class="stars">

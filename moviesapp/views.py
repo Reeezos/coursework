@@ -5,6 +5,7 @@ from django.views.generic.base import View
 from .models import Movie
 from .forms import ReviewForm
 
+
 class MoviesView(ListView):
     """Movies list"""
 
