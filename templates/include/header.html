@@ -1,37 +1,31 @@
 {% load movie_tag %}
 <header class="header">
-        <div class="container-fluid px-lg-5">
-            <nav class="py-4">
-                <div id="logo">
-                    <h1><a href="/" class="editContent"
-                           style="outline: none; outline-offset: -2px; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Source Sans Pro&quot;, sans-serif;">CourseProject</a>
-                    </h1>
-                </div>
-                <label for="drop" class="toggle">Меню</label>
-                <input type="checkbox" id="drop">
-                <ul class="menu mt-2">
-                    <li class="active"><a href="/">Головна</a></li>
-                    <li>
-                        <label for="drop-2" class="toggle">Категорії <span class="fa fa-angle-down"
-                                                                           aria-hidden="true"></span> </label>
-                        <a href="#">Категорії <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                        <input type="checkbox" id="drop-2">
-                        <ul>
-                            {% get_categories as categories %}
-                            {% for category in categories %}
-                            <li><a href="/{{ category.url }}">{{ category.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li><a href="contact.html"
-                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вхід</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <div class="banner-info">
-        <p class="editContent">Name</p>
-        <h3 class="mb-4 editContent"></h3>
-        <div class="ban-buttons">
-        </div>
+    <div class="container-fluid px-lg-5">
+        <nav class="py-4">
+            <div id="logo">
+                <h1><a href="/" class="editContent"
+                       style="outline: none; outline-offset: -2px; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Source Sans Pro&quot;, sans-serif;">CourseProject</a>
+                </h1>
+            </div>
+            <label for="drop" class="toggle">Меню</label>
+            <input type="checkbox" id="drop">
+            <ul class="menu mt-2">
+                <li class="active"><a href="/">Головна</a></li>
+                <li>
+                    <label for="drop-2" class="toggle">Категорії <span class="fa fa-angle-down"
+                                                                       aria-hidden="true"></span> </label>
+                    <a href="#">Категорії <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                    <input type="checkbox" id="drop-2">
+                    <ul>
+                        {% get_categories as categories %}
+                        {% for category in categories %}
+                        <li><a href="/{{ category.url }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="contact.html"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вхід</a></li>
+            </ul>
+        </nav>
     </div>
+</header>

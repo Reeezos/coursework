@@ -14,8 +14,16 @@
 </head>
 <body>
 <div id="page" class="page">
-    <div class=" single-banner {% block header %} {% endblock header %}" id="home">
+    <div id="banner" class="single-banner {% block header %} {% endblock header %}" style="background-size: cover" id="home">
+            {% block header-test %}
+            {% endblock header-test %}
         {% include 'include/header.html'%}
+        <div class="banner-info">
+            <p class="editContent">{% block banner-name %} {% endblock banner-name %}</p>
+            <h3 class="mb-4 editContent">{% block banner-info %} {% endblock banner-info %}</h3>
+            <div class="ban-buttons">
+            </div>
+        </div>
     </div>
     <ol class="breadcrumb editContent">
         <li class="breadcrumb-item">
