@@ -3,7 +3,7 @@
 
 {% block title %} {{ movie.title }} {% endblock title %}
 
-{% block header-test %}
+{% block banner %}
         {% for image in movie.movieshots_set.all %}
         {% if forloop.first %}
         <script>
@@ -11,7 +11,11 @@
         </script>
         {% endif %}
         {% endfor %}
-{% endblock header-test %}
+{% endblock banner %}
+
+{% block breadcrumb-item %}
+    {{ movie.title }}
+{% endblock breadcrumb-item %}
 
 {% block container %}
 <div class="container-fluid py-md-3">
@@ -45,9 +49,13 @@
                                     <span><b>Режисери:</b>
                                         {% for director in movie.directors.all %}
                                             {% if  forloop.last %}
+                                            <a href="{{ director.get_absolute_url }}">
                                                 {{ director.name }}
+                                            </a>
                                             {% else %}
+                                            <a href="{{ director.get_absolute_url }}">
                                                 {{ director.name }},
+                                            </a>
                                             {% endif %}
                                         {% endfor %}
                                     </span>
@@ -56,9 +64,13 @@
                                     <span><b>Актори:</b>
                                     {% for actor in movie.actors.all %}
                                         {% if  forloop.last %}
+                                        <a href="{{ actor.get_absolute_url }}">
                                             {{ actor.name }}
+                                        </a>
                                         {% else %}
+                                        <a href="{{ actor.get_absolute_url }}">
                                             {{ actor.name }},
+                                        </a>
                                         {% endif %}
                                     {% endfor %}
                                 </span>

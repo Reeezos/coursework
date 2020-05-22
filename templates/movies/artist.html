@@ -1,0 +1,78 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block title %} {{ artist.name }} {% endblock title %}
+
+{% block breadcrumb-item %}
+    {{ artist.name }}
+{% endblock breadcrumb-item %}
+
+{% block container %}
+<div class="container-fluid py-md-3">
+{% endblock container %}
+
+    {% block sidebar %}
+    <div class="side-bar col-lg-3">
+    {% endblock sidebar %}
+
+        {% block movie %}
+        <div class="left-ads-display col-lg-8">
+            <div class="row">
+                <div class="desc1-left col-md-5">
+                    <img src="{{ artist.image.url }}" class="img-fluid" alt="">
+                </div>
+                <div class="desc1-right col-md-6 pl-lg-4">
+                    <h3 class="editContent">
+                        {{ artist.name }}
+                    </h3>
+                    <h5 class="editContent"></h5>
+                    <ul>
+                        <li>
+                            <span><b>Вік:</b> {{ artist.age }} років</span></li>
+                        <li>
+                        <span><b>Режисер:</b>
+                            {% for movie in artist.film_director.all %}
+
+                            {% if  forloop.last %}
+                                <a href="{{ movie.get_absolute_url }}">
+                                    {{ movie.title }}
+                                </a>
+
+                            {% else %}
+                                <a href="{{ movie.get_absolute_url }}">
+                                    {{ movie.title }} ,
+                                </a>
+                            {% endif %}
+                            {% empty %}
+                                <a> – </a>
+                            {% endfor %}
+                        </span>
+                        </li>
+                        <li><span><b>Актор:</b>
+                        {% for movie in artist.film_actor.all %}
+                        {% if  forloop.last %}
+                            <a href="{{ movie.get_absolute_url }}">
+                                {{ movie.title }}
+                            </a>
+                        {% else %}
+                            <a href="{{ movie.get_absolute_url }}">
+                                {{ movie.title }},
+                            </a>
+                        {% endif %}
+                        {% empty %}
+                            <a> – </a>
+                        {% endfor %}
+                    </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row sub-para-w3layouts mt-5">
+                <h3 class="shop-sing editContent">
+                    {{ artist.name }} – Біографія
+                </h3>
+                <p class="editContent">
+                    {{ artist.description|safe }}
+                </p>
+            </div>
+        </div>
+        {% endblock movie %}

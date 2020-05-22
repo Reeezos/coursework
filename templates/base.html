@@ -14,9 +14,9 @@
 </head>
 <body>
 <div id="page" class="page">
-    <div id="banner" class="single-banner {% block header %} {% endblock header %}" style="background-size: cover" id="home">
-            {% block header-test %}
-            {% endblock header-test %}
+    <div id="banner" class="single-banner {% block header %} {% endblock header %}" id="home">
+            {% block banner %}
+            {% endblock banner %}
         {% include 'include/header.html'%}
         <div class="banner-info">
             <p class="editContent">{% block banner-name %} {% endblock banner-name %}</p>
@@ -29,7 +29,7 @@
         <li class="breadcrumb-item">
             <a href="/" class="editContent">Головна</a>
         </li>
-        <li class="breadcrumb-item active editContent">{{ movie.title }}</li>
+        <li class="breadcrumb-item active editContent">{% block breadcrumb-item %}  {% endblock breadcrumb-item %}</li>
     </ol>
     {% block content %}
 

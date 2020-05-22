@@ -18,6 +18,8 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
 
+
+
 class Artist(models.Model):
     """Actors/Directors model"""
     name = models.CharField("Name", max_length=100)
@@ -40,7 +42,7 @@ class Genre(models.Model):
     """Genres model"""
     name = models.CharField("Name", max_length=100)
     description = models.TextField("Description")
-    url = models.SlugField(max_length=160, unique=True)
+    url = models.SlugField(max_length=160, unique=True, default='')
 
     def __str__(self):
         return self.name
