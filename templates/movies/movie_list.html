@@ -4,9 +4,7 @@
 
 {% block header %} main-banner bg bg1 {% endblock header %}
 
-{% block banner-name %} Name {% endblock banner-name %}
-
-{% block banner-info %} test {% endblock banner-info %}
+{% block banner-info %} Каталог фільмів на будь-який смак! {% endblock banner-info %}
 
 
 {% block movie%}
@@ -16,22 +14,12 @@
         <div class="col-md-4 product-men">
             <div class="product-shoe-info editContent text-center mt-lg-4">
                 <div class="men-thumb-item">
-                    <img src="{{movie.poster.url}}" class="img-fluid" alt="">
+                    <img src="{{movie.poster.url}}" class="img-fluid img-list" alt="">
                 </div>
                 <div class="item-info-product">
                     <h4>
                         <a href="{{ movie.get_absolute_url }}" class="editContent">{{movie.title}}</a>
                     </h4>
-
-                    <div class="product_price">
-                        <div class="grid-price">
-                            <span class="money editContent">
-                                {% if movie.tagline != "–" %}
-                                {{movie.tagline}}
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
                     <ul class="stars">
                         <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
                         <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
@@ -44,9 +32,5 @@
         </div>
         {% endfor %}
     </div>
-        <!--<div class="grid-img-right mt-4 text-right bg bg1" >
-        <span class="money editContent" >Flat 50% Off</span>
-        <a href="movie_detail.html" class="btn" >Now</a>
-    </div>-->
 </div>
 {% endblock movie %}

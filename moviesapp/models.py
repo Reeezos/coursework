@@ -86,6 +86,9 @@ class Movie(models.Model):
     def get_review(self):
         return self.reviews_set.filter(parent__isnull=True)
 
+    def get_year(self):
+        return self.world_premiere.year
+
     def get_month(self):
         months = {1: 'cічня', 2: 'лютого', 3: 'березня', 4: 'квітня', 5: 'травня', 6: 'червня',
                   7: 'липня', 8: 'серпня', 9: 'вересня', 10: 'жовтня', 11: 'листопада', 12: 'грудня'}
