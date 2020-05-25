@@ -23,7 +23,7 @@ class MoviesView(GenreAndCountry, ListView):
 
     model = Movie
     queryset = Movie.objects.filter(draft=False)
-    paginate_by = 3
+    paginate_by = 1
     template_name = "movies/movie_list.html"
 
 
@@ -67,28 +67,30 @@ class FilterMoviesView(GenreAndCountry, ListView):
     """Film Filter"""
 
     template_name = "movies/movie_list.html"
+    paginate_by = 1
 
     def get_queryset(self):
-        queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
-                                        Q(genres__in=self.request.GET.getlist("genre"))
-                                        )
+
+        if self.request.GET.get("q", None):
+            queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
+                                            Q(genres__in=self.request.GET.getlist("genre")) |
+                                            Q(title__icontains=self.request.GET.get("q")) &
+                                            Q(draft=False)
+                                            ).distinct().only("id", "title", "tagline", "poster").order_by("-id")
+        else:
+            queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
+                                            Q(genres__in=self.request.GET.getlist("genre")) &
+                                            Q(draft=False)
+                                            ).distinct().only("id", "title", "tagline", "poster").order_by("-id")
 
         return queryset
 
-
-class JsonFilterMoviesView(GenreAndCountry, ListView):
-    """Json Film Filter"""
-
-    def get_queryset(self):
-        queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
-                                        Q(genres__in=self.request.GET.getlist("genre"))
-                                        ).distinct().values("title", "url", "poster")
-
-        return queryset
-
-    def get(self, request, *args, **kwargs):
-        queryset = list(self.get_queryset())
-        return JsonResponse({"movies": queryset}, safe=False)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["q"] = f'q={self.request.GET.get("q")}&'
+        context["genre"] = ''.join([f"genre={x}&" for x in self.request.GET.getlist("genre")])
+        context["country"] = ''.join([f"country={x}&" for x in self.request.GET.getlist("country")])
+        return context
 
 
 class AddStarRating(View):
@@ -113,11 +115,3 @@ class AddStarRating(View):
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=400)
-
-
-class Search(GenreAndCountry, ListView):
-    """Search Filter"""
-    template_name = "movies/movie_list.html"
-
-    def get_queryset(self):
-        return Movie.objects.filter(title__icontains=self.request.GET.get("q"))

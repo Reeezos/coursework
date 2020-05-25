@@ -2,13 +2,11 @@
 
 <div class="search-bar w3layouts-newsletter">
     <h3 class="sear-head editContent">Пошук фільму</h3>
-    <form action="{% url 'search' %}" method="get" class="d-flex editContent">
-        <input type="search" placeholder="Введіть назву..." name="q" class="form-control" required="">
+    <form action="{% url 'filter' %}" method="get" class="d-flex editContent">
+        <input type="search" placeholder="Введіть назву..." name="q" class="form-control" >
         <button type="submit" class="btn1 btn"><span class="fa fa-search" aria-hidden="true"></span></button>
-    </form>
 </div>
 
-<form action="{% url 'json_filter' %}" method="get" name="filter">
 <div class="left-side my-4">
     <h3 class="sear-head editContent">Жанр</h3>
     <ul class="w3layouts-box-list">
@@ -34,7 +32,6 @@
             {% endfor %}
         </ul>
     </div>
-    <button type="submit">Знайти</button>
 </form>
 
 <div class="customer-rev left-side my-4">
