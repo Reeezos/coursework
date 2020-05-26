@@ -10,19 +10,6 @@
             <label for="drop" class="toggle">Меню</label>
             <input type="checkbox" id="drop">
             <ul class="menu mt-2">
-                <li class="active"><a href="/">Головна</a></li>
-                <li>
-                    <label for="drop-2" class="toggle">Категорії <span class="fa fa-angle-down"
-                                                                       aria-hidden="true"></span> </label>
-                    <a href="#">Категорії <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                    <input type="checkbox" id="drop-2">
-                    <ul>
-                        {% get_categories as categories %}
-                        {% for category in categories %}
-                        <li><a href="/{{ category.url }}">{{ category.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
                 <li><a href="contact.html"
                        style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вхід</a></li>
             </ul>

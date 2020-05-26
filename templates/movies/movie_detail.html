@@ -8,6 +8,7 @@
 {% if forloop.first %}
 <script>
             banner.style.background = 'url( {{ image.image.url }} )';
+
 </script>
 {% endif %}
 {% endfor %}
@@ -116,7 +117,7 @@
                                 <span class="rating">
                                     {% for k, v in star_form.fields.star.choices %}
                                         <input id="rating{{ v }}" type="radio" name="star"
-                                            value="{{ k }}">
+                                               value="{{ k }}">
                                         <label for="rating{{ v }}">{{ k }}</label>
                                     {% endfor %}
                                 </span>
@@ -125,17 +126,18 @@
                     </ul>
                 </div>
                 <div class="sub-para-w3layouts mt-5">
-
-                    <h3 class="shop-sing editContent">
-                        Про фільм {{ movie.title }}
-                    </h3>
                     <p>
                         {% for image in movie.movieshots_set.all %}
                         <a href="{{ image.image.url }}" target="_blank">
                             <img src="{{ image.image.url }}" class="img-movie-shots" alt="{{ image.description }}">
                         </a>
                         {% endfor %}
+
                     </p>
+                    <hr>
+                    <h3 class="shop-sing editContent">
+                        Про фільм {{ movie.title }}
+                    </h3>
                     <p class="editContent">
                         {{ movie.description|safe }}
                     </p>
@@ -222,5 +224,7 @@
                 document.getElementById("contactparent").value = id;
                 document.getElementById("contactcomment").innerText = `${name}, `
                 }
+
         </script>
+        <script src="{% static 'js/scripts.js' %}"></script>
         {% endblock movie %}

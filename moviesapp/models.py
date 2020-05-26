@@ -18,20 +18,19 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
 
-
-
 class Artist(models.Model):
     """Actors/Directors model"""
     name = models.CharField("Name", max_length=100)
     age = models.PositiveSmallIntegerField("Age", default=0)
     description = models.TextField("Description")
     image = models.ImageField("Image", upload_to="artists/")
+    url = models.SlugField(max_length=160, unique=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('artist_detail', kwargs={"slug": self.name})
+        return reverse("artist_detail", kwargs={"slug": self.url})
 
     class Meta:
         verbose_name = "Actors and directors"

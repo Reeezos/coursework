@@ -137,7 +137,6 @@ class MovieShotsAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     list_display = ("star", "movie", "ip")
-    readonly_fields = ("star", "movie", "ip")
 
 
 admin.site.register(RatingStar)

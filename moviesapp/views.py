@@ -4,12 +4,16 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
-from .models import Movie, Artist, Genre, Rating
+from .models import Movie, Artist, Genre, Rating, Category
 from .forms import ReviewForm, RatingForm
+from .service import get_client_ip
 
 
-class GenreAndCountry:
-    """Get Genres and Countries"""
+class FilterFields:
+    """Get Filter Fields"""
+
+    def get_categories(self):
+        return Category.objects.all()
 
     def get_genres(self):
         return Genre.objects.all()
@@ -18,16 +22,16 @@ class GenreAndCountry:
         return Movie.objects.filter(draft=False).values("country")
 
 
-class MoviesView(GenreAndCountry, ListView):
+class MoviesView(FilterFields, ListView):
     """Movies list"""
 
     model = Movie
     queryset = Movie.objects.filter(draft=False)
-    paginate_by = 1
+    paginate_by = 3
     template_name = "movies/movie_list.html"
 
 
-class MovieDetailView(GenreAndCountry, DetailView):
+class MovieDetailView(FilterFields, DetailView):
     """Single Movie View"""
 
     model = Movie
@@ -55,30 +59,32 @@ class AddReview(View):
         return redirect(movie.get_absolute_url())
 
 
-class ArtistView(GenreAndCountry, DetailView):
+class ArtistView(FilterFields, DetailView):
     """Artist View"""
 
     model = Artist
+    slug_field = "url"
     template_name = "movies/artist.html"
-    slug_field = "name"
 
 
-class FilterMoviesView(GenreAndCountry, ListView):
+class FilterMoviesView(FilterFields, ListView):
     """Film Filter"""
 
     template_name = "movies/movie_list.html"
-    paginate_by = 1
+    paginate_by = 3
 
     def get_queryset(self):
 
         if self.request.GET.get("q", None):
             queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
+                                            Q(category__in=self.request.GET.getlist("category")) |
                                             Q(genres__in=self.request.GET.getlist("genre")) |
                                             Q(title__icontains=self.request.GET.get("q")) &
                                             Q(draft=False)
                                             ).distinct().only("id", "title", "tagline", "poster").order_by("-id")
         else:
             queryset = Movie.objects.filter(Q(country__in=self.request.GET.getlist("country")) |
+                                            Q(category__in=self.request.GET.getlist("category")) |
                                             Q(genres__in=self.request.GET.getlist("genre")) &
                                             Q(draft=False)
                                             ).distinct().only("id", "title", "tagline", "poster").order_by("-id")
@@ -89,6 +95,7 @@ class FilterMoviesView(GenreAndCountry, ListView):
         context = super().get_context_data(*args, **kwargs)
         context["q"] = f'q={self.request.GET.get("q")}&'
         context["genre"] = ''.join([f"genre={x}&" for x in self.request.GET.getlist("genre")])
+        context["category"] = ''.join([f"category={x}&" for x in self.request.GET.getlist("category")])
         context["country"] = ''.join([f"country={x}&" for x in self.request.GET.getlist("country")])
         return context
 
@@ -96,19 +103,11 @@ class FilterMoviesView(GenreAndCountry, ListView):
 class AddStarRating(View):
     """Add rating to movie"""
 
-    def get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
-
     def post(self, request):
         form = RatingForm(request.POST)
         if form.is_valid():
             Rating.objects.update_or_create(
-                ip=self.get_client_ip(request),
+                ip=get_client_ip(request),
                 movie_id=int(request.POST.get("movie")),
                 defaults={'star_id': int(request.POST.get("star"))}
             )

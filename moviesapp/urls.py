@@ -7,5 +7,5 @@ urlpatterns = [
     path("add-rating/", views.AddStarRating.as_view(), name="add_rating"),
     path("<slug:slug>/", views.MovieDetailView.as_view(), name="movie_detail"),
     path("review/<int:pk>/", views.AddReview.as_view(), name="add_review"),
-    path("artist/<str:slug>/", views.ArtistView.as_view(), name="artist_detail"),
+    path("artist/<slug:slug>/", views.ArtistView.as_view(), name="artist_detail"),
 ]
