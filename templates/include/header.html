@@ -10,8 +10,19 @@
             <label for="drop" class="toggle">Меню</label>
             <input type="checkbox" id="drop">
             <ul class="menu mt-2">
-                <li><a href="contact.html"
+                {% if user.is_authenticated %}
+                <li><span style="color: rgb(255, 255, 255); font-weight: 700; margin-right: 10px" >
+                    {{ user.username }}
+                </span>
+                </li>
+                <li><a href="{% url 'account_logout' %}"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вихід</a></li>
+                {% else %}
+                <li><a href="{% url 'account_signup' %}"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Регістрація</a></li>
+                <li><a href="{% url 'account_login' %}"
                        style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вхід</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>
