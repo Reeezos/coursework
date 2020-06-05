@@ -1,1 +1,1 @@
-# coursework project - film catalogue based on django
+# MovieDeer - film catalogue based on django
